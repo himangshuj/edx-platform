@@ -19,7 +19,7 @@ def enable_theme(theme_name, container):
     container["THEME_NAME"] = theme_name
     container['MITX_FEATURES']['USE_CUSTOM_THEME'] = True
     # Calculate the location of the theme's files
-    theme_root = container['ENV_ROOT'] / "themes" / theme_name
+    theme_root = container['HOME_FOLDER'] / container['THEME_ROOT'] / "themes" / theme_name
     # Include the theme's templates in the template search paths
     container['TEMPLATE_DIRS'].append(theme_root / 'templates')
     container['MAKO_TEMPLATES']['main'].append(theme_root / 'templates')

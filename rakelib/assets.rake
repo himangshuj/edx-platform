@@ -58,7 +58,7 @@ namespace :assets do
 
     desc "Compile all assets in debug mode"
     multitask :debug
-
+    print "here"
     desc "Preprocess all templatized static asset files"
     task :preprocess, [:system, :env] do |t, args|
       args.with_defaults(:system => "lms", :env => "dev")

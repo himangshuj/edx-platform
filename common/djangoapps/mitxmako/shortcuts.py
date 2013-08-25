@@ -19,6 +19,7 @@ import logging
 from . import middleware
 from django.conf import settings
 from django.core.urlresolvers import reverse
+
 log = logging.getLogger(__name__)
 
 
@@ -62,9 +63,9 @@ def marketing_link_context_processor(request):
         [
             ("MKTG_URL_" + k, marketing_link(k))
             for k in (
-                settings.MKTG_URL_LINK_MAP.viewkeys() |
-                settings.MKTG_URLS.viewkeys()
-            )
+            settings.MKTG_URL_LINK_MAP.viewkeys() |
+            settings.MKTG_URLS.viewkeys()
+        )
         ]
     )
 
@@ -78,7 +79,11 @@ def render_to_string(template_name, dictionary, context=None, namespace='main'):
     context_instance['settings'] = settings
     context_instance['MITX_ROOT_URL'] = settings.MITX_ROOT_URL
     context_instance['marketing_link'] = marketing_link
+    print "settings is %s" % settings.MITX_FEATURES['USE_CUSTOM_THEME']
+    if settings.MITX_FEATURES['USE_CUSTOM_THEME']:
+        template_name = settings.THEME_NAME + "-" + template_name
 
+    print(template_name)
     # In various testing contexts, there might not be a current request context.
     if middleware.requestcontext is not None:
         for d in middleware.requestcontext:
@@ -87,7 +92,7 @@ def render_to_string(template_name, dictionary, context=None, namespace='main'):
         context_dictionary.update(d)
     if context:
         context_dictionary.update(context)
-    # fetch and render template
+        # fetch and render template
     template = middleware.lookup[namespace].get_template(template_name)
     return template.render_unicode(**context_dictionary)
 

@@ -18,5 +18,4 @@ SERVICE_VARIANT = ENV['SERVICE_VARIANT']
 CONFIG_PREFIX = SERVICE_VARIANT ? SERVICE_VARIANT + "." : ""
 ENV_FILE = File.join(ENV_ROOT, CONFIG_PREFIX + "env.json")
 ENV_TOKENS = File.exists?(ENV_FILE) ? JSON.parse(File.read(ENV_FILE)) : {}
-
 task :default => [:test, :pep8, :pylint]
